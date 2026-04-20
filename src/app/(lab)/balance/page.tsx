@@ -16,7 +16,7 @@ export default function BalancePage() {
   const [loading, setLoading] = useState(false);
 
   // -----------------------------
-  // 💰 FETCH BALANCE
+  // FETCH BALANCE
   // -----------------------------
   const refreshBalance = async (address: string) => {
     setLoading(true);
@@ -32,7 +32,7 @@ export default function BalancePage() {
   };
 
   // -----------------------------
-  // 📜 FETCH TRANSACTIONS
+  // FETCH TRANSACTIONS
   // -----------------------------
   const loadTransactions = async (address: string) => {
     try {
@@ -45,7 +45,7 @@ export default function BalancePage() {
   };
 
   // -----------------------------
-  // 🔄 TRIGGER ON WALLET CONNECT
+  // TRIGGER ON WALLET CONNECT
   // -----------------------------
   useEffect(() => {
     if (!walletAddress) return;
@@ -64,7 +64,7 @@ export default function BalancePage() {
         gradient="bg-gradient-to-br from-blue-600 to-blue-900"
       />
 
-      {/* 💳 WALLET CARD */}
+      {/* WALLET CARD */}
       <BalanceCard 
         walletAddress={walletAddress}
         setWalletAddress={setWalletAddress}

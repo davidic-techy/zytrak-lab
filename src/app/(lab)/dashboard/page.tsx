@@ -14,12 +14,12 @@ import { ModuleHeader }          from '@/components/shared/ModuleHeader';
 export default function Dashboard() {
   const { approved } = useSupplierStore();
 
-  // Inventory alerts
+
   const zero     = MOCK_INVENTORY.filter(i => i.reorder_status === 'zero');
   const low      = MOCK_INVENTORY.filter(i => i.reorder_status === 'low' || i.reorder_status === 'critical');
   const expiring = MOCK_INVENTORY.filter(i => getExpiryAlertLevel(i.expiry_date) !== 'ok');
 
-  // Supplier verification status — reads live from Zustand
+ 
   const verifiedSuppliers   = MOCK_SUPPLIERS.filter(s => !!approved[s.id]);
   const unverifiedSuppliers = MOCK_SUPPLIERS.filter(s => !approved[s.id]);
   const newlyVerified       = MOCK_SUPPLIERS.filter(
@@ -29,7 +29,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
 
-      {/* Upgraded Cohesive Blue Header */}
+    
       <ModuleHeader
         icon={<Home size={28} className="text-white drop-shadow-sm" />}
         title="Good morning, Dr. Adeyemi"
@@ -42,8 +42,6 @@ export default function Dashboard() {
         }
       />
 
-      {/* ── Newly verified suppliers alert ── */}
-      {/* This section only renders after admin approves — real-time Zustand update */}
       {newlyVerified.length > 0 && (
         <div className="bg-blue-600 rounded-2xl p-4 text-white shadow-sm border border-blue-500">
           <div className="flex items-start gap-3">
@@ -82,7 +80,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ── Inventory alert cards ── */}
+
       <div className="grid grid-cols-3 gap-4">
         {[
           {
@@ -120,7 +118,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* ── Main content: two columns ── */}
+ 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
         {/* Items needing attention */}
@@ -163,7 +161,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* ── Supplier trust panel — live from useSupplierStore ── */}
+
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gray-50/50">
             <div>
@@ -177,7 +175,7 @@ export default function Dashboard() {
             </Link>
           </div>
 
-          {/* Progress bar */}
+    
           <div className="px-5 pt-4 pb-2">
             <div className="flex items-center justify-between text-xs font-medium text-gray-500 mb-1.5">
               <span>Verification progress</span>
@@ -195,7 +193,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Supplier list */}
+      
           <div className="divide-y divide-gray-50 px-5">
             {MOCK_SUPPLIERS.map(supplier => {
               const state      = approved[supplier.id];
@@ -207,7 +205,7 @@ export default function Dashboard() {
                   key={supplier.id}
                   className="flex items-center gap-3 py-3 hover:bg-gray-50/30 transition-colors"
                 >
-                  {/* Status dot — animates to blue when verified */}
+     
                   <div className={`
                     w-2.5 h-2.5 rounded-full shrink-0 transition-colors duration-500 shadow-sm
                     ${isVerified ? 'bg-blue-600' : 'bg-gray-200'}
@@ -227,7 +225,7 @@ export default function Dashboard() {
                       supplierId={supplier.id}
                       variant="compact"
                     />
-                    {/* Show real Stellar link the moment it exists */}
+      
                     {hasOnChain && (
                       <StellarBadge
                         explorerUrl={state.explorerUrl}
