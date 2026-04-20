@@ -176,4 +176,49 @@ export async function writeProvenanceRecord(
   }
 }
 
+/**
+ * Builds an atomic multi-operation checkout transaction.
+ * Routes 98.5% to the supplier and 1.5% to the Zytrak Treasury.
+ */
+export async function buildCheckoutTransaction(
+  buyerPublicKey: string,
+  supplierPublicKey: string,
+  totalAmount: number
+): Promise<string> {
+  const account = await horizon.loadAccount(buyerPublicKey);
+  
+  // Calculate the splits
+  const FEE_PERCENTAGE = 0.015; // 1.5% Zytrak Platform Fee
+  const zytrakFee = (totalAmount * FEE_PERCENTAGE).toFixed(5);
+  const supplierAmount = (totalAmount - parseFloat(zytrakFee)).toFixed(5);
+  
+  // For the demo, we will use your Admin keypair as the Zytrak Treasury
+  const ZYTRAK_TREASURY = keypair ? keypair.publicKey() : buyerPublicKey;
+
+  const tx = new StellarSdk.TransactionBuilder(account, {
+    fee: StellarSdk.BASE_FEE,
+    networkPassphrase: passphrase,
+  })
+    // Operation 1: Send 98.5% to the Supplier
+    .addOperation(
+      StellarSdk.Operation.payment({
+        destination: supplierPublicKey,
+        asset: StellarSdk.Asset.native(),
+        amount: supplierAmount,
+      })
+    )
+    // Operation 2: Send 1.5% to the Zytrak Treasury
+    .addOperation(
+      StellarSdk.Operation.payment({
+        destination: ZYTRAK_TREASURY,
+        asset: StellarSdk.Asset.native(),
+        amount: zytrakFee,
+      })
+    )
+    .setTimeout(30)
+    .build();
+
+  return tx.toXDR(); // Return to the frontend for Freighter to sign
+}
+
 export { keypair };

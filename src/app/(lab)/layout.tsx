@@ -21,7 +21,7 @@ import { useState, useEffect } from "react";
 const NAV = [
   { href: "/dashboard",  label: "Dashboard",   icon: Home },
   { href: "/inventory",  label: "Inventory",   icon: Package },
-  { href: "/products",   label: "Marketplace", icon: ShoppingCart },
+  { href: "/marketplace",   label: "Marketplace", icon: ShoppingCart },
   { href: "/orders",     label: "Orders",      icon: ClipboardList },
   { divider: true,       label: "Trust & Finance" },
   { href: "/verify",     label: "Verify",      icon: ShieldCheck },

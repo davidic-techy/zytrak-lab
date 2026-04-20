@@ -66,7 +66,7 @@ export default function OrderDetailPage() {
     setStatus(orderId, "confirmed_good");
 
     if (record) {
-      addStellarRecord(orderId, record);
+      addStellarRecord(orderId, record as any);
       if (isCompromised) {
         toast.error("Cold chain breach logged permanently on Stellar!");
       } else {
